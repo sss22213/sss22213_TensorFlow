@@ -18,9 +18,9 @@ ys=tf.placeholder(tf.float32,[None,1])
 
 #construct netual network
 #hidden layer
-l1=add_layer(xs,1,10,activation_function=tf.nn.relu)
+l1=add_layer(xs,1,100,activation_function=tf.nn.relu)
 #output layer
-prediction=add_layer(l1,10,1,activation_function=None)
+prediction=add_layer(l1,100,1,activation_function=None)
 
 #gernel data
 x_data=np.linspace(-1,1,300)[:,np.newaxis]
@@ -36,13 +36,12 @@ sess = tf.Session()
 sess.run(init)
 
 #plot
-'''
+
 fig = plt.figure()
-ax = fig.add_subplot(1,1,1)
-ax.scatter(x_data, y_data)
+plt.axis([0, 30000, 0, 0.005])
 plt.ion()
 plt.show()
-'''
+
 #
 for i in range(30000):
    
@@ -53,7 +52,10 @@ for i in range(30000):
     # 要取出預測的數值 必須再run 一次才能取出
         prediction_value = sess.run(prediction, feed_dict={xs: x_data})
     if i % 100 ==0:
-        print(sess.run(tf.reduce_mean(tf.square(ys - prediction))))
+        print("loss",sess.run(loss, feed_dict={xs: x_data, ys: y_data}))
+        plt.scatter(i,sess.run(loss, feed_dict={xs: x_data, ys: y_data}))
+        plt.pause(0.1)
+    
 '''
     if i % 50 == 0:
         # 畫出下一條線之前 必須把前一條線刪除掉 不然會看不出學習成果
@@ -68,4 +70,3 @@ for i in range(30000):
         lines = ax.plot(x_data, prediction_value, 'r-', lw=5)
         plt.pause(0.1)
 '''
-##
