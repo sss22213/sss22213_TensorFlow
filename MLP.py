@@ -33,7 +33,7 @@ output_layer=add_Layer(h5,180,20,activation_function=None)
 
 #loss function
 loss=tf.reduce_mean(tf.reduce_sum(tf.square(ys - output_layer),reduction_indices=[1]))
-train_step = tf.train.GradientDescentOptimizer(0.001).minimize(loss)
+train_step = tf.train.GradientDescentOptimizer(0.01).minimize(loss)
 #
 init = tf.initialize_all_variables()
 sess = tf.Session()
@@ -59,7 +59,6 @@ for i in range(3000):
         print("loss",sess.run(loss, feed_dict={xs: x_data, ys: y_data}))
         plt.scatter(i,sess.run(loss, feed_dict={xs: x_data, ys: y_data}))
         plt.pause(0.1)
-
 
 
 
